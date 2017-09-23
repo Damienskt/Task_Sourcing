@@ -9,7 +9,8 @@ Modify this line of code in your httpd.conf (under apache2\conf\ folder)
 to change the default loading page when you go to your localhost.
 Approx line 279 or so. DirectoryIndex: sets the file that Apache will serve if a directory is requested.
 
-`<IfModule dir_module>
+```html
+<IfModule dir_module>
     DirectoryIndex homePage.html homePage.php
 </IfModule>
-`
+```
