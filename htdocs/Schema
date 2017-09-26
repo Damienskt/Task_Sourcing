@@ -1,0 +1,10 @@
+//Stored Procedure for add user
+
+CREATE FUNCTION add_user(username VARCHAR(64), password VARCHAR(128),email VARCHAR(128),firstName VARCHAR(128),lastName VARCHAR(32),dob DATE,gender VARCHAR(6)) 
+    RETURNS void AS $$
+    BEGIN
+      INSERT INTO account (username,pw,email,firstname,lastname,dob,gender) VALUES (username,password,email,firstName,lastName,dob,gender);
+    END;
+    $$ LANGUAGE plpgsql;
+    
+    
