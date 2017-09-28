@@ -34,7 +34,7 @@ body, html {
 	  if(isset($_SESSION['username'])) {
 		  echo '<a href="dashBoard.html" class="w3-bar-item w3-button"><i class="fa fa-user"></i> DASHBOARD</a>';
 	  } else {
-		  echo '<a href="login.html" class="w3-bar-item w3-button"><i class="fa fa-user"></i> LOGIN</a>';
+		  echo '<a href="login.php" class="w3-bar-item w3-button"><i class="fa fa-user"></i> LOGIN</a>';
 	  }
 	  ?>
 	  <a href="search.html" class="w3-bar-item w3-button"><i class="fa fa-search"></i> SEARCH</a>
