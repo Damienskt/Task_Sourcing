@@ -84,8 +84,8 @@ body, html {
 
     // Connect to database. Change pw and dbname as accordingly
     $db = pg_connect("host=localhost port=5432 dbname=TaskSource user=postgres password=test");
-
-    $result = pg_query($db, "INSERT INTO task (title, description, type, price) VALUES ('$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[taskprice]')");
+    $rn = $_SESSION['username']; // current session user
+    $result = pg_query($db, "INSERT INTO task (creator, title, description, type, price) VALUES ('$rn', '$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[taskprice]')");
 
     if(!$result) {
       echo "<script> alert('try again') </script>";
