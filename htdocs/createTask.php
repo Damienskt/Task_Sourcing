@@ -55,6 +55,20 @@ body, html {
           <textarea class="w3-input w3-border" type="textarea" placeholder="Description of task..." required name="taskdescription"></textarea>
         </p>
         <p>
+          <select class="w3-input w3-border" required name = "tasktype">
+          <option value = "" disabled> --- Select Task Type --- </option>
+          <option value = "Miscellanous "> Miscellanous </option>
+          <option value = "Housing Agent "> Housing Agent </option>
+          <option value = "Car Washing"> Car Washing </option>
+          <option value = "Education "> Education </option>
+          <option value = "Holiday Planner "> Holiday Planner </option>
+          <option value = "Home"> Home </option>
+          </select>
+        </p>
+        <p>
+          <input class="w3-input w3-border" type="number" placeholder="Task Price in SGD" required name="taskprice">
+        </p>
+        <p>
           <button class="w3-button w3-black" type="submit" name = "create">
             <i class="fa fa-pencil"></i> CREATE
           </button>
@@ -64,8 +78,21 @@ body, html {
   </div>
 
 </div>
-<?php
 
+<?php
+  if(isset($_POST['create'])) {
+
+    // Connect to database. Change pw and dbname as accordingly
+    $db = pg_connect("host=localhost port=5432 dbname=TaskSource user=postgres password=test");
+
+    $result = pg_query($db, "INSERT INTO task (title, description, type, price) VALUES ('$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[taskprice]')");
+
+    if(!$result) {
+      echo "<script> alert('try again') </script>";
+    } else {
+      echo "<script> alert('Success!') </script>";
+    }
+  }  
 ?>
 
 <!-- Footer -->
