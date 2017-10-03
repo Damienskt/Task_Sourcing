@@ -48,6 +48,12 @@ body, html {
           </select>
         </p>
         <p>
+          <input class="w3-input w3-border" type="date" required name="taskdate">
+        </p>
+        <p>
+          <input class="w3-input w3-border" type="time" required name="tasktime">
+        </p>
+        <p>
           <input class="w3-input w3-border" type="number" placeholder="Task Price in SGD" required name="taskprice">
         </p>
         <p>
@@ -67,7 +73,7 @@ body, html {
     // Connect to database. Change pw and dbname as accordingly
     $db     = pg_connect("host=localhost port=5432 dbname=Project1 user=postgres password=root");
     $rn = $_SESSION['user']; // current session user
-    $result = pg_query($db, "INSERT INTO task (creator, title, description, type, price) VALUES ('$rn', '$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[taskprice]')");
+    $result = pg_query($db, "INSERT INTO task (username, title, description, type, date, time, price) VALUES ('$rn', '$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[taskdate]', '$_POST[tasktime]', '$_POST[taskprice]')");
 
     if(!$result) {
       echo "<script> alert('try again') </script>";

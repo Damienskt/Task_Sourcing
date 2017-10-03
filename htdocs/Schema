@@ -21,12 +21,14 @@ CREATE TABLE account(
 );
     
 CREATE TABLE task(
-	taskID serial,
-	creator VARCHAR(64) REFERENCES account(username) ON DELETE CASCADE,
-	title VARCHAR(64) NOT NULL,
-	description VARCHAR(256) NOT NULL,	
-	type VARCHAR(32) NOT NULL,
-	price NUMERIC NOT NULL,
-
-	PRIMARY KEY (taskID,creator)
+	taskID SERIAL,
+    username VARCHAR(64),
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(512) NOT NULL,
+    type VARCHAR(64) NOT NULL,
+    price INT NOT NULL,
+    date DATE NOT NULL CHECK (date >= current_date),
+    time TIME NOT NULL,
+    PRIMARY KEY (taskID, username),
+    FOREIGN KEY (username) REFERENCES account(username) ON DELETE CASCADE
 );
