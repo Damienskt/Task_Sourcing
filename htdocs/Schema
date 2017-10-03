@@ -12,7 +12,7 @@ CREATE FUNCTION add_user(username VARCHAR(64), password VARCHAR(128),email VARCH
 CREATE TABLE account(
 	userID serial PRIMARY KEY,
 	username VARCHAR(64) UNIQUE,
-	pw VARCHAR(128) NOT NULL,
+	pw VARCHAR(255) NOT NULL,
 	email VARCHAR(128) UNIQUE,
 	firstName VARCHAR(128) NOT NULL,
 	lastName VARCHAR(32) NOT NULL,
