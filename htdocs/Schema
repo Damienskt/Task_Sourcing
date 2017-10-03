@@ -6,5 +6,27 @@ CREATE FUNCTION add_user(username VARCHAR(64), password VARCHAR(128),email VARCH
       INSERT INTO account (username,pw,email,firstname,lastname,dob,gender) VALUES (username,password,email,firstName,lastName,dob,gender);
     END;
     $$ LANGUAGE plpgsql;
+  
+//Tables
+  
+CREATE TABLE account(
+	userID serial PRIMARY KEY,
+	username VARCHAR(64) UNIQUE,
+	pw VARCHAR(128) NOT NULL,
+	email VARCHAR(128) UNIQUE,
+	firstName VARCHAR(128) NOT NULL,
+	lastName VARCHAR(32) NOT NULL,
+	dob DATE NOT NULL CHECK (date_part('year',dob) > 18),
+	gender VARCHAR(6) NOT NULL CHECK (gender = 'Male' OR gender = 'Female')
+);
     
-    
+CREATE TABLE task(
+	taskID serial,
+	creator VARCHAR(64) REFERENCES account(username) ON DELETE CASCADE,
+	title VARCHAR(64) NOT NULL,
+	description VARCHAR(256) NOT NULL,	
+	type VARCHAR(32) NOT NULL,
+	price NUMERIC NOT NULL,
+
+	PRIMARY KEY (taskID,creator)
+);

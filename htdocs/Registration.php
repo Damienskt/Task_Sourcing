@@ -21,28 +21,9 @@ body, html {
 }
 </style>
 <body>
-
-<!-- Navbar (sit on top) -->
-<div class="w3-top">
-  <div class="w3-bar w3-white w3-card-2" id="myNavbar">
-    <a href="homePage.php" class="w3-bar-item w3-button w3-wide">RENTAL</a>
-    <!-- Right-sided navbar links -->
-    <div class="w3-right w3-hide-small">
-	  <a href="homePage.php" class="w3-bar-item w3-button"><i class="fa fa-home"></i> HOME</a>
-      <a href="aboutUs.html" class="w3-bar-item w3-button"><i class="fa fa-info-circle"></i> ABOUT</a>
-	  <?php
-	  if(isset($_SESSION['username'])) {
-		  echo '<a href="dashBoard.html" class="w3-bar-item w3-button"><i class="fa fa-user"></i> DASHBOARD</a>';
-	  } else {
-		  echo '<a href="login.html" class="w3-bar-item w3-button"><i class="fa fa-user"></i> LOGIN</a>';
-	  }
-	  ?>
-	  <a href="search.html" class="w3-bar-item w3-button"><i class="fa fa-search"></i> SEARCH</a>
-      <a href="contactUs.html" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
-    </div>
-  </div>
-</div>
-
+<?php 
+    include 'navbar.php';
+?>
 <!-- Registration Section !-->
 <div class="w3-container w3-light-grey" style="padding:96px" id="home">
   <h3 class="w3-center">REGISTRATION</h3>
@@ -75,7 +56,7 @@ body, html {
   	// Connect to the database. Please change the password in the following line accordingly
     
 	if (isset($_POST['register'])) {
-		$db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=cs2102");	
+		$db     = pg_connect("host=localhost port=5432 dbname=Project1 user=postgres password=root");	
 	
 	$password = password_hash($_POST[Password],PASSWORD_DEFAULT);
 	$result = pg_query($db,"SELECT add_user('$_POST[Username]','$password',
@@ -85,7 +66,7 @@ body, html {
 	  if (!$result) {
         echo "Create failed!!";
 		} else {
-			$_SESSION['username'] = $_POST[Username];
+			$_SESSION['user'] = $_POST[Username];
 			$_SESSION['name'] = $_POST[Firstname] + $_POST[Lastname];
 			$_SESSION['isAdmin'] = 'no';
 			/*
@@ -96,22 +77,11 @@ body, html {
 			);
 			*/
 			header("Location: dashBoard.php");
-			exit;
+			exit();
 		}
 	}
 ?>  
 </body>
-
-<!-- Footer -->
-<footer class="w3-center w3-black w3-padding-64">
-  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
-  <div class="w3-xlarge w3-section">
-    <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    <i class="fa fa-instagram w3-hover-opacity"></i>
-    <i class="fa fa-snapchat w3-hover-opacity"></i>
-    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-    <i class="fa fa-twitter w3-hover-opacity"></i>
-    <i class="fa fa-linkedin w3-hover-opacity"></i>
-  </div>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
-</footer>
+<?php
+    include 'footer.html';
+?>
