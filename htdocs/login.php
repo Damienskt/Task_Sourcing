@@ -2,7 +2,7 @@
 <?php
     session_start();
     // Connect to the database. Please change the password and dbname in the following line accordingly
-        $db     = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=cs2102");	
+        $db     = pg_connect("host=localhost port=5432 dbname=Project1 user=postgres password=cs2102");	
   if (isset($_POST['login'])) { 
 		//$password = password_hash($_POST[Password],PASSWORD_DEFAULT);
         $check = pg_query($db, "SELECT pw FROM account WHERE username = '$_POST[Username]'");
@@ -25,7 +25,7 @@
 			
 			if (password_verify($_POST['Password'],$hashedPw[0])) {
 				$_SESSION["user"] = $_POST["Username"];
-				header("Location: http://localhost:8080/demo/dashBoard.php");
+				header("Location: dashBoard.php");
 				exit();   
 			} else {
 				$echo1 = '<p>Wrong password!</p>';

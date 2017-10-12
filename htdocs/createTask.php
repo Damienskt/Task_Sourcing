@@ -71,7 +71,7 @@ body, html {
   if(isset($_POST['create'])) {
 
     // Connect to database. Change pw and dbname as accordingly
-    $db     = pg_connect("host=localhost port=5432 dbname=Project1 user=postgres password=root");
+    $db     = pg_connect("host=localhost port=5432 dbname=Project1 user=postgres password=cs2102");	
     $rn = $_SESSION['user']; // current session user
     $result = pg_query($db, "INSERT INTO task (username, title, description, type, date, time, price) VALUES ('$rn', '$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[taskdate]', '$_POST[tasktime]', '$_POST[taskprice]')");
 
