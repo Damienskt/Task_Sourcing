@@ -56,7 +56,7 @@ body, html {
   	// Connect to the database. Please change the password in the following line accordingly
     
 	if (isset($_POST['register'])) {
-		$db     = pg_connect("host=localhost port=5432 dbname=Project1 user=postgres password=root");	
+		$db     = pg_connect("host=localhost port=5432 dbname=CS2102 user=postgres password=root");	
 	
 	$password = password_hash($_POST[Password],PASSWORD_DEFAULT);
 	$result = pg_query($db,"SELECT add_user('$_POST[Username]','$password',
