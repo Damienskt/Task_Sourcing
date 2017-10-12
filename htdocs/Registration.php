@@ -37,7 +37,7 @@ body, html {
 			$result = pg_get_result($db);
 			
 			if ($result) {
-				$state = pg_result_error_field($res,PGSQL_DIAG_SQLSTATE);
+				$state = pg_result_error_field($result,PGSQL_DIAG_SQLSTATE);
 				
 				if ($state == 0) {
 					$_SESSION['user'] = $_POST[Username];
@@ -46,12 +46,12 @@ body, html {
 			
 					header("Location: dashBoard.php");
 					exit();
-				} else if ($state == "23505") { //Unique Constraint
+				} else if ($state == 23505) { //Unique Constraint
 					$message = '<p>Email or Username is taken!</p>';
-				} else if ($state == "23001") { //Restrict Constraint
+				} else if ($state == 23514) { //Restrict Constraint
 					$message = '<p>You must be 18 and above to register!</p>';
 				} else { //Catch all other failures
-					$message = '<p>Some error encountered! Please contact the admin.</p>';
+					$message = '<p>Some error encountered! Please contact the admin.</p>' + $state;
 				}
 				
 			}
@@ -90,36 +90,7 @@ body, html {
 		?>
     </div>
   </div>
-</div>
-<?php
-  	// Connect to the database. Please change the password in the following line accordingly
-    
-	if (isset($_POST['register'])) {
-		$db     = pg_connect("host=localhost port=5432 dbname=CS2102 user=postgres password=root");	
-	
-	$password = password_hash($_POST[Password],PASSWORD_DEFAULT);
-	$result = pg_query($db,"SELECT add_user('$_POST[Username]','$password',
-							'$_POST[Email]','$_POST[Firstname]','$_POST[Lastname]','$_POST[dob]','$_POST[Gender]')");
-	//$result = pg_query($db, "INSERT INTO account (username,pw,email,firstname,lastname,dob,gender) VALUES ('$_POST[Username]','$password',
-	//						'$_POST[Email]','$_POST[Firstname]','$_POST[Lastname]','$_POST[dob]','$_POST[Gender]')");
-	  if (!$result) {
-        echo "Create failed!!";
-		} else {
-			$_SESSION['user'] = $_POST[Username];
-			$_SESSION['name'] = $_POST[Firstname] + $_POST[Lastname];
-			$_SESSION['isAdmin'] = 'no';
-			/*
-			$_SESSION['user'] = array(
-			'username' => $_POST[Username],
-			'name' => $_POST[Lastname]+$_POST[Firstname],
-			'admin' => 'no'
-			);
-			*/
-			header("Location: dashBoard.php");
-			exit();
-		}
-	}
-?>
+</div>	
 </body>
 <?php
     include 'footer.html';
