@@ -2,11 +2,7 @@
 <?php
     session_start();
     // Connect to the database. Please change the password and dbname in the following line accordingly
-<<<<<<< HEAD
-        $db     = pg_connect("host=localhost port=5432 dbname=CS2102 user=postgres password=root");	
-=======
-        $db     = pg_connect("host=localhost port=5432 dbname=Project1 user=postgres password=cs2102");	
->>>>>>> master
+    $db     = pg_connect("host=localhost port=5432 dbname=CS2102 user=postgres password=root");	
   if (isset($_POST['login'])) { 
 		//$password = password_hash($_POST[Password],PASSWORD_DEFAULT);
         $check = pg_query($db, "SELECT pw FROM account WHERE username = '$_POST[Username]'");
