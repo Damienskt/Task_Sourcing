@@ -131,7 +131,25 @@ body, html {
     $result = pg_query($db, "INSERT INTO task (userName, title, description, type, startDate, endDate, startTime, endTime, price) VALUES ('$rn', '$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[starttaskdate]', '$_POST[endtaskdate]', '$_POST[starttasktime]', '$_POST[endtasktime]', '$_POST[taskprice]')");
 
     if(!$result) {
-      echo "<script> alert('try again') </script>";
+      echo "<script>
+              var startDate = new Date('$_POST[starttaskdate]');
+              var endDate= new Date('$_POST[endtaskdate]');
+              var today = new Date();
+              today.setHours(0,0,0,0);
+
+              if(startDate >= today) {
+                if(startDate > endDate) {
+                  alert('Check that your end date is not earlier that your start date');
+                } else {
+                  alert('Error in adding task. Try again!');
+                }
+              } else if (startDate < today){
+                alert('Check that your start date is not in the past.');
+              } else {
+                alert('Error in adding task. Try again!');
+              }
+              
+            </script>";
     } else {
       echo "<script> alert('Success!') </script>";
     }
