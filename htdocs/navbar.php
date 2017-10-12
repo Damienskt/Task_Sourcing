@@ -12,7 +12,7 @@
 		  echo '<a href="login.php" class="w3-bar-item w3-button"><i class="fa fa-user"></i> LOGIN</a>';
 	  }
 	  ?>
-      <a href="search.html" class="w3-bar-item w3-button"><i class="fa fa-search"></i> SEARCH</a>
+      <a href="search.php" class="w3-bar-item w3-button"><i class="fa fa-search"></i> SEARCH</a>
       <a href="credit.html" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CREDIT</a> <!-- Change this name? !-->
     </div>
   </div>
