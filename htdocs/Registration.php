@@ -23,7 +23,43 @@ body, html {
 <body>
 <?php 
     include 'navbar.php';
-?>
+	
+  	// Connect to the database. Please change the password in the following line accordingly
+	if (isset($_POST['register'])) {
+	
+		if ($_POST[Password] == $_POST[Password2]) {
+			$db     = pg_connect("host=localhost port=5432 dbname=CS2102 user=postgres password=root");	
+		
+			$password = password_hash($_POST[Password],PASSWORD_DEFAULT);
+			pg_send_query($db,"SELECT add_user('$_POST[Username]','$_POST[Email]','$password',
+									'$_POST[Firstname]','$_POST[Lastname]','$_POST[dob]','$_POST[Gender]','False')");
+								
+			$result = pg_get_result($db);
+			
+			if ($result) {
+				$state = pg_result_error_field($res,PGSQL_DIAG_SQLSTATE);
+				
+				if ($state == 0) {
+					$_SESSION['user'] = $_POST[Username];
+					$_SESSION['name'] = $_POST[Firstname] + $_POST[Lastname];
+					$_SESSION['isAdmin'] = 'no';
+			
+					header("Location: dashBoard.php");
+					exit();
+				} else if ($state == "23505") { //Unique Constraint
+					$message = '<p>Email or Username is taken!</p>';
+				} else if ($state == "23001") { //Restrict Constraint
+					$message = '<p>You must be 18 and above to register!</p>';
+				} else { //Catch all other failures
+					$message = '<p>Some error encountered! Please contact the admin.</p>';
+				}
+				
+			}
+		} else {
+			$message = '<p>Passwords does not match!</p>';
+		}
+	}
+?>  
 <!-- Registration Section !-->
 <div class="w3-container w3-light-grey" style="padding:96px" id="home">
   <h3 class="w3-center">REGISTRATION</h3>
@@ -49,9 +85,13 @@ body, html {
           </button>
         </p>
       </form>
+		<?php 
+			echo $message;
+		?>
     </div>
   </div>
 </div>	
+<<<<<<< HEAD
 <?php
   	// Connect to the database. Please change the password in the following line accordingly
     
@@ -81,6 +121,8 @@ body, html {
 		}
 	}
 ?>  
+=======
+>>>>>>> master
 </body>
 <?php
     include 'footer.html';

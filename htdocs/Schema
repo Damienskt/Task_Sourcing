@@ -1,9 +1,9 @@
 //Stored Procedure for add user
 
-CREATE FUNCTION add_user(username VARCHAR(64), password VARCHAR(128),email VARCHAR(128),firstName VARCHAR(128),lastName VARCHAR(32),dob DATE,gender VARCHAR(6)) 
+CREATE FUNCTION add_user(userName VARCHAR(64), email VARCHAR(128), pw VARCHAR(255),  firstName VARCHAR(128), lastName VARCHAR(32), dob DATE, gender VARCHAR(6), isAdmin boolean) 
     RETURNS void AS $$
     BEGIN
-      INSERT INTO account (username,pw,email,firstname,lastname,dob,gender) VALUES (username,password,email,firstName,lastName,dob,gender);
+      INSERT INTO account VALUES (username,email,pw,firstName,lastName,dob,gender,isAdmin);
     END;
     $$ LANGUAGE plpgsql;
   
@@ -12,7 +12,7 @@ CREATE FUNCTION add_user(username VARCHAR(64), password VARCHAR(128),email VARCH
 CREATE TABLE account(
 	userID serial PRIMARY KEY,
 	username VARCHAR(64) UNIQUE,
-	pw VARCHAR(128) NOT NULL,
+	pw VARCHAR(255) NOT NULL,
 	email VARCHAR(128) UNIQUE,
 	firstName VARCHAR(128) NOT NULL,
 	lastName VARCHAR(32) NOT NULL,
