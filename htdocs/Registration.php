@@ -90,7 +90,36 @@ body, html {
 		?>
     </div>
   </div>
-</div>	
+</div>
+<?php
+  	// Connect to the database. Please change the password in the following line accordingly
+    
+	if (isset($_POST['register'])) {
+		$db     = pg_connect("host=localhost port=5432 dbname=CS2102 user=postgres password=root");	
+	
+	$password = password_hash($_POST[Password],PASSWORD_DEFAULT);
+	$result = pg_query($db,"SELECT add_user('$_POST[Username]','$password',
+							'$_POST[Email]','$_POST[Firstname]','$_POST[Lastname]','$_POST[dob]','$_POST[Gender]')");
+	//$result = pg_query($db, "INSERT INTO account (username,pw,email,firstname,lastname,dob,gender) VALUES ('$_POST[Username]','$password',
+	//						'$_POST[Email]','$_POST[Firstname]','$_POST[Lastname]','$_POST[dob]','$_POST[Gender]')");
+	  if (!$result) {
+        echo "Create failed!!";
+		} else {
+			$_SESSION['user'] = $_POST[Username];
+			$_SESSION['name'] = $_POST[Firstname] + $_POST[Lastname];
+			$_SESSION['isAdmin'] = 'no';
+			/*
+			$_SESSION['user'] = array(
+			'username' => $_POST[Username],
+			'name' => $_POST[Lastname]+$_POST[Firstname],
+			'admin' => 'no'
+			);
+			*/
+			header("Location: dashBoard.php");
+			exit();
+		}
+	}
+?>
 </body>
 <?php
     include 'footer.html';
