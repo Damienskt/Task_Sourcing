@@ -49,25 +49,38 @@ body, html {
 
 <!-- Create Task -->
 <div class="w3-container w3-light-grey" style="padding:96px" id="home">
-  <h3 class="w3-center">CREATE</h3>
+  <h1 class="w3-center">CREATE</h1>
   <p class="w3-center w3-large">Create a new task to start!</p>
   <div class="w3-row-padding" style="margin-top:64px padding:128px 16px">
     <div class="w3-content" align="center">
       <form action="createTask.php" method="POST" >
-        <p><input class="w3-input w3-border" type="text" placeholder="Task Title" required name="tasktitle"></p>
-        <p>
-          <textarea class="w3-input w3-border" type="textarea" placeholder="Description of task..." required name="taskdescription"></textarea>
-        </p>
-        <p>
+        
+        <div class="row">
+          <span>Task Title</span>
+          <div class="col-12">
+            <input class="w3-input w3-border" type="text" placeholder="Task Title" required name="tasktitle">
+          </div>
+        </div>
+        
+        <div class="row">
+          <span>Description</span>
+          <div class="col-12">  
+            <textarea class="w3-input w3-border" type="textarea" placeholder="Description of task..." required name="taskdescription"></textarea>
+          </div>
+        </div>
+        
+        <div class="row">
           <div class="col-6">
             <span>Start Date</span>
             <input class="w3-input w3-border" type="date" required name="starttaskdate">
           </div>
+
           <div class="col-6">
             <span>End Date</span>  
             <input class="w3-input w3-border" type="date" required name="endtaskdate">
           </div>     
-        </p>
+        </div>
+
         <div class="row">
           <div class="col-6">
             <span>Start Time</span>
@@ -78,11 +91,15 @@ body, html {
             <input class="w3-input w3-border" type="time" required name="endtasktime">
           </div>
         </div>
+        
         <div class="row">
           <div class="col-6">
+            <span>Task Price</span>
             <input class="w3-input w3-border" type="number" placeholder="Task Price in SGD" required name="taskprice">
           </div>
+
           <div class="col-6">
+            <label>Task Type</label>
             <select class="w3-input w3-border" required name = "tasktype">
             <option selected value = "" disabled> --- Select Task Type --- </option>
             <option value = "Miscellanous "> Miscellanous </option>
@@ -111,7 +128,7 @@ body, html {
     // Connect to database. Change pw and dbname as accordingly
     $db     = pg_connect("host=localhost port=5432 dbname=CS2102 user=postgres password=root");
     $rn = $_SESSION['user']; // current session user
-    $result = pg_query($db, "INSERT INTO task (username, title, description, type, startdate, enddate, starttime, endtime, price) VALUES ('$rn', '$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[starttaskdate]', '$_POST[endtaskdate]', '$_POST[starttasktime]', '$_POST[endtasktime]', '$_POST[starttasktime]', '$_POST[taskprice]')");
+    $result = pg_query($db, "INSERT INTO task (userName, title, description, type, startDate, endDate, startTime, endTime, price) VALUES ('$rn', '$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[starttaskdate]', '$_POST[endtaskdate]', '$_POST[starttasktime]', '$_POST[endtasktime]', '$_POST[taskprice]')");
 
     if(!$result) {
       echo "<script> alert('try again') </script>";
