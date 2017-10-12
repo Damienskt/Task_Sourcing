@@ -19,6 +19,28 @@ body, html {
 .w3-bar .w3-button {
     padding: 20px;
 }
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+}
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
 </style>
 <body>
 <?php 
@@ -37,25 +59,41 @@ body, html {
           <textarea class="w3-input w3-border" type="textarea" placeholder="Description of task..." required name="taskdescription"></textarea>
         </p>
         <p>
-          <select class="w3-input w3-border" required name = "tasktype">
-          <option value = "" disabled> --- Select Task Type --- </option>
-          <option value = "Miscellanous "> Miscellanous </option>
-          <option value = "Housing Agent "> Housing Agent </option>
-          <option value = "Car Washing"> Car Washing </option>
-          <option value = "Education "> Education </option>
-          <option value = "Holiday Planner "> Holiday Planner </option>
-          <option value = "Home"> Home </option>
-          </select>
+          <div class="col-6">
+            <span>Start Date</span>
+            <input class="w3-input w3-border" type="date" required name="starttaskdate">
+          </div>
+          <div class="col-6">
+            <span>End Date</span>  
+            <input class="w3-input w3-border" type="date" required name="endtaskdate">
+          </div>     
         </p>
-        <p>
-          <input class="w3-input w3-border" type="date" required name="taskdate">
-        </p>
-        <p>
-          <input class="w3-input w3-border" type="time" required name="tasktime">
-        </p>
-        <p>
-          <input class="w3-input w3-border" type="number" placeholder="Task Price in SGD" required name="taskprice">
-        </p>
+        <div class="row">
+          <div class="col-6">
+            <span>Start Time</span>
+            <input class="w3-input w3-border" type="time" required name="starttasktime">
+          </div>
+          <div class="col-6">
+            <span>End Time</span>  
+            <input class="w3-input w3-border" type="time" required name="endtasktime">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <input class="w3-input w3-border" type="number" placeholder="Task Price in SGD" required name="taskprice">
+          </div>
+          <div class="col-6">
+            <select class="w3-input w3-border" required name = "tasktype">
+            <option selected value = "" disabled> --- Select Task Type --- </option>
+            <option value = "Miscellanous "> Miscellanous </option>
+            <option value = "Housing Agent "> Housing Agent </option>
+            <option value = "Car Washing"> Car Washing </option>
+            <option value = "Education "> Education </option>
+            <option value = "Holiday Planner "> Holiday Planner </option>
+            <option value = "Home"> Home </option>
+            </select>
+          </div>
+        </div>
         <p>
           <button class="w3-button w3-black" type="submit" name = "create">
             <i class="fa fa-pencil"></i> CREATE
@@ -71,9 +109,9 @@ body, html {
   if(isset($_POST['create'])) {
 
     // Connect to database. Change pw and dbname as accordingly
-    $db     = pg_connect("host=localhost port=5432 dbname=Project1 user=postgres password=root");
+    $db     = pg_connect("host=localhost port=5432 dbname=CS2102 user=postgres password=root");
     $rn = $_SESSION['user']; // current session user
-    $result = pg_query($db, "INSERT INTO task (username, title, description, type, date, time, price) VALUES ('$rn', '$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[taskdate]', '$_POST[tasktime]', '$_POST[taskprice]')");
+    $result = pg_query($db, "INSERT INTO task (username, title, description, type, startdate, enddate, starttime, endtime, price) VALUES ('$rn', '$_POST[tasktitle]', '$_POST[taskdescription]', '$_POST[tasktype]', '$_POST[starttaskdate]', '$_POST[endtaskdate]', '$_POST[starttasktime]', '$_POST[endtasktime]', '$_POST[starttasktime]', '$_POST[taskprice]')");
 
     if(!$result) {
       echo "<script> alert('try again') </script>";
