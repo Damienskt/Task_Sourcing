@@ -90,8 +90,7 @@ body, html {
 		?>
     </div>
   </div>
-</div>	
-<<<<<<< HEAD
+</div>
 <?php
   	// Connect to the database. Please change the password in the following line accordingly
     
@@ -120,9 +119,7 @@ body, html {
 			exit();
 		}
 	}
-?>  
-=======
->>>>>>> master
+?>
 </body>
 <?php
     include 'footer.html';
