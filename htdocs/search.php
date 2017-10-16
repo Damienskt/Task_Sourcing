@@ -48,12 +48,59 @@
 				text-align: center;
 			}
 
+			#slidecontainer {
+				width: 100%;
+			}
+			.slider {
+				-webkit-appearance: none;
+				width: 100%;
+				height: 15px;
+				border-radius: 5px;
+				background: #d3d3d3;
+				outline: none;
+				opacity: 0.7;
+				-webkit-transition: .2s;
+				transition: opacity .2s;
+			}
+
+			.slider:hover {
+				opacity: 1;
+			}
+
+			.slider::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				appearance: none;
+				width: 25px;
+				height: 25px;
+				border-radius: 100%;
+				background: #808080;
+				cursor: pointer;
+			}
+
+			.slider::-moz-range-thumb {
+				width: 25px;
+				height: 25px;
+				border-radius: 100%;
+				background: #808080;
+				cursor: pointer;
+			}
+
 			select {
 				width: 100%;
 				padding: 12px 12px;
 				border: none;
 				border-radius: 4px;
 				background-color: #f1f1f1;
+			}
+
+			input[type=text] {
+				width: 100%;
+				box-sizing: border-box;
+				border: 2px solid #ccc;
+				border-radius: 4px;
+				font-size: 16px;
+				background-color: white;
+				padding: 8px 10px 8px 10px;
 			}
 
 		</style>
@@ -69,11 +116,12 @@
 				<p>
 					<h2 style="text-align: center">Browse over 1,000 taskers with the skills you need</h2></br>
 				</p>
-				<form action="search.php" method="get"> 
-					<h4>Filter by category:</h4>
+				<form action="search.php" method="get">
+					<h4>Search for a job:</h4></br>
+					<input type="text" name="title" placeholder="By job title">
 					<h6>
-						<select id="category" name="category">
-							<option value="">Select a category</option>
+						<select id="type" name="type">
+							<option value="">By type</option>
 							<option value="Education">Education</option>
 							<option value="Housing Agent">Housing Agent</option>
 							<option value="Home">Home</option>
@@ -81,7 +129,11 @@
 							<option value="Car Washing">Car Washing</option>
 							<option value="Miscellaneous">Miscellaneous</option>
 						</select>
-					</h6>
+					</h6></br>
+					<div id="slidecontainer">
+			            <h6>By Price: Under <span id="price value"></span></h6>
+						<input type="range" min="1" max="249" class="slider" id="price" name="price">
+					</div></br>
 					<button type="submit" class="w3-button w3-grey">Go!</button>
 				</form>
 			</div>
@@ -96,17 +148,42 @@
 			$page1 = $page*5-5;
 		}
 		
-		$category = $_GET["category"];
-		str_replace("+"," ",$category);
+		$title = $_GET["title"];
+		str_replace("+"," ",$title);
+		
+		$type = $_GET["type"];
+		str_replace("+"," ",$type);
+		
+		$price = $_GET["price"];
+		str_replace("+"," ",$price);
 
-		if ($category==""){
-			$result = pg_query($db, "SELECT * FROM task LIMIT 10 OFFSET $page1");
-			$result1 = pg_query($db, "SELECT * FROM task");
-		} else {
-			$result = pg_query($db, "SELECT * FROM task WHERE type='{$category}' LIMIT 10 OFFSET $page1");
-			$result1 = pg_query($db, "SELECT * FROM task WHERE type='{$category}'");
+		$filter = array("title"=>$title, "type"=>$type, "price"=>$price);
+		$string = "";
+		foreach($filter as $field => $value) {
+			if ($value == "") {
+				continue;
+			} else {
+				if ($string !== ""){
+					$string .= " AND ";
+				}
+				if ($field == "price"){
+					$string = $string . $field . " <= " . $value;
+				} else {
+					$string = $string . "UPPER(" . $field . ") LIKE UPPER('" . $value . "')";
+				}		
+			}
 		}
-			
+
+		if ($string == ""){
+			$result = pg_query($db, "SELECT * FROM task LIMIT 10 OFFSET $page1;");
+			$result1 = pg_query($db, "SELECT * FROM task;");
+		} else {
+			$query = "SELECT * FROM task WHERE " . $string . " LIMIT 10 OFFSET $page1;";
+			$query1 = "SELECT * FROM task WHERE " . $string . ";";
+			$result = pg_query($db, $query);
+			$result1 = pg_query($db, $query1);	
+		}
+
 		$row    = pg_fetch_assoc($result);
 		while($row = pg_fetch_array($result)){ ?>
 			<p><div class="container">   
@@ -163,6 +240,15 @@
 			<a href="search.php?page=<?php echo $nextPage ?>">&raquo;</a>
 		</div>
 	</div>
+
+	<script>
+		var slider = document.getElementById("price");
+		var output = document.getElementById("price value");
+
+		slider.oninput = function() {
+			output.innerHTML = this.value;
+		}
+	</script>
 
 </body>
 </html>
