@@ -1,4 +1,7 @@
 	<!DOCTYPE html>
+	<?php
+		session_start();
+	?>
 	<html lang="en">
 	<head>
 		<title>CS2102 Assignment</title>
