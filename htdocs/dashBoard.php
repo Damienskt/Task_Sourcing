@@ -51,6 +51,7 @@ body, html {
         <li class="active"><a href="#section1">Dashboard</a></li>
         <li><a href="#">View all</a></li>
         <li><a href="createTask.php">Create new task</a></li>
+	<li><a href="viewTask.php">View your task</a></li>
         <li><a href="changePassword.html">Change password</a></li>
         <li><a href="logout.php">Logout</a></li>
       </ul><br>
