@@ -33,7 +33,7 @@ CREATE TABLE bid(
 	bidder VARCHAR(64) NOT NULL CHECK (bidder <> taskOwner) REFERENCES account(userName) ON DELETE CASCADE,
 	taskOwner VARCHAR(64) NOT NULL REFERENCES account(userName) ON DELETE CASCADE,
 	status varchar(8) NOT NULL CHECK (status = 'Pending' OR status = 'Accepted' OR status = 'Rejected'),
-	bidDate DATE NOT NULL CHECK (bidDate = current_date),
+	bidDate DATE NOT NULL CHECK (bidDate <= current_date),
 	bidAmt NUMERIC NOT NULL,
 	PRIMARY KEY (bidID,taskID,bidder),
 	FOREIGN KEY (taskID,taskOwner) REFERENCES task(taskID,userName) ON DELETE CASCADE
